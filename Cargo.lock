@@ -79,6 +79,7 @@ name = "non-secure"
 version = "0.1.0"
 dependencies = [
  "cortex-m",
+ "trustzone-m-nonsecure-rt",
 ]
 
 [[package]]
@@ -152,6 +153,10 @@ dependencies = [
  "quote",
  "unicode-ident",
 ]
+
+[[package]]
+name = "trustzone-m-nonsecure-rt"
+version = "0.1.0"
 
 [[package]]
 name = "ufmt-write"

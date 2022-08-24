@@ -4,20 +4,11 @@
 use core::panic::PanicInfo;
 use rtt_target::rprintln;
 
-#[link(name = "non_secure")]
-extern "C" {
-    fn write_thing(val: u32);
-}
-
 #[cortex_m_rt::entry]
 fn main() -> ! {
     rtt_target::rtt_init_default!();
 
     rprintln!("Hello world!");
-
-    unsafe {
-        write_thing(5);
-    }
 
     loop {
         cortex_m::asm::bkpt();

@@ -3,7 +3,6 @@ runner = "probe-run --chip nRF9160_xxAA"
 
 rustflags = [
     "-C", "link-arg=-Tlink.x",
-    "-L", "target/thumbv8m.main-none-eabihf/debug",
 ]
 
 [build]
