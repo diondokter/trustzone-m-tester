@@ -28,24 +28,6 @@ fn main() -> ! {
     }
 }
 
-#[cortex_m_rt::exception]
-unsafe fn HardFault(frame: &cortex_m_rt::ExceptionFrame) -> ! {
-    rprintln!("{:?}", frame);
-    cortex_m::peripheral::SCB::sys_reset();
-}
-
-/// Called when our code panics.
-#[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    cortex_m::interrupt::disable();
-    rprintln!("{}", info);
-    cortex_m::asm::udf();
-}
-
-const fn hash(name: &str) -> u32 {
-    crc::Crc::<u32>::new(&crc::CRC_32_CKSUM).checksum(name.as_bytes())
-}
-
 unsafe fn find_vector<F>(name_hash: u32) -> Option<F> {
     extern "C" {
         static _NS_VECTORS: u32;
@@ -68,4 +50,22 @@ unsafe fn find_vector<F>(name_hash: u32) -> Option<F> {
 
         ns_vectors_ptr = ns_vectors_ptr.offset(1);
     }
+}
+
+const fn hash(name: &str) -> u32 {
+    crc::Crc::<u32>::new(&crc::CRC_32_CKSUM).checksum(name.as_bytes())
+}
+
+#[cortex_m_rt::exception]
+unsafe fn HardFault(frame: &cortex_m_rt::ExceptionFrame) -> ! {
+    rprintln!("{:?}", frame);
+    cortex_m::peripheral::SCB::sys_reset();
+}
+
+/// Called when our code panics.
+#[panic_handler]
+fn panic(info: &PanicInfo) -> ! {
+    cortex_m::interrupt::disable();
+    rprintln!("{}", info);
+    cortex_m::asm::udf();
 }
