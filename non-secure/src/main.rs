@@ -5,60 +5,11 @@ extern crate trustzone_m_nonsecure_rt;
 
 static mut THING: u32 = 0;
 
-#[link_section = ".ns_vector.len"]
-#[no_mangle]
-static mut VT_LEN: usize = 0;
-
-#[link_section = ".ns_vectors.ptrs"]
-#[no_mangle]
-static mut VT: [(u32, u32); 8] = [(0, 0); 8];
-
-#[link_section = ".ctor.init"]
+#[link_section = ".vectors"]
 #[used]
-static CTORS_INIT: extern "C" fn() = ctors_init;
-extern "C" fn ctors_init() {
-    unsafe {
-        VT_LEN = 0;
-        VT.iter_mut().for_each(|v| *v = (0, 0));
-    }
-
-    extern "C" {
-        static _sctors: unsafe extern "C" fn();
-        static _ectors: unsafe extern "C" fn();
-    }
-
-    let ctors = unsafe {
-        core::slice::from_raw_parts(
-            &_sctors as *const unsafe extern "C" fn(),
-            (&_ectors as *const unsafe extern "C" fn())
-                .offset_from(&_sctors as *const unsafe extern "C" fn()) as usize,
-        )
-    };
-
-    // Skip the first ctor, because that's this init function
-    for ctor in ctors.iter().skip(1).take(unsafe { VT.len() }) {
-        unsafe { ctor() };
-    }
-}
-
-
-
-
-
-#[link_section = ".ctor"]
-#[used]
-static WRITE_THING_CTOR: unsafe extern "C" fn() = write_thing_ctor;
-unsafe extern "C" fn write_thing_ctor() {
-    *VT.get_unchecked_mut(VT_LEN) = (
-        write_thing as *const u32 as u32,
-        "write_thing"
-            .chars()
-            .map(|c| c as u32)
-            .fold(u32::MAX, |l, r| l ^ r),
-    );
-
-    VT_LEN += 1;
-}
+static WRITE_THING_VECTOR: (extern "C" fn(val: u32), u32) = (write_thing, 
+    crc::Crc::<u32>::new(&crc::CRC_32_CKSUM).checksum("write_thing".as_bytes()),
+);
 
 #[link_section = ".text.exported"]
 pub extern "C" fn write_thing(val: u32) {
@@ -67,28 +18,12 @@ pub extern "C" fn write_thing(val: u32) {
     }
 }
 
-
-
-
-
-#[link_section = ".ctor"]
+#[link_section = ".vectors"]
 #[used]
-static READ_THING_CTOR: unsafe extern "C" fn() = read_thing_ctor;
-unsafe extern "C" fn read_thing_ctor() {
-    *VT.get_unchecked_mut(VT_LEN) = (
-        read_thing as *const u32 as u32,
-        "read_thing"
-            .chars()
-            .map(|c| c as u32)
-            .fold(u32::MAX, |l, r| l ^ r),
-    );
-
-    VT_LEN += 1;
-}
-
-// TODO: Invastigate doing this instead of having the constructors
-#[used]
-static READ_THING: (extern "C" fn() -> u32, u32) = (read_thing, adler32("read_thing"));
+static READ_THING_VECTOR: (extern "C" fn() -> u32, u32) = (
+    read_thing,
+    crc::Crc::<u32>::new(&crc::CRC_32_CKSUM).checksum("read_thing".as_bytes()),
+);
 
 #[link_section = ".text.exported"]
 pub extern "C" fn read_thing() -> u32 {
