@@ -8,7 +8,7 @@ edition = "2021"
 [dependencies]
 cortex-m = "0.7"
 trustzone-m-nonsecure-rt = { path = "../../trustzone-m-tools/nonsecure-rt" }
-crc = "3.0"
+trustzone-m-macros = { path = "../../trustzone-m-tools/macros" }
 
 [profile.release]
 debug = true

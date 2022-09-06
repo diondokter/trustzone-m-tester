@@ -94,7 +94,7 @@ name = "non-secure"
 version = "0.1.0"
 dependencies = [
  "cortex-m",
- "crc",
+ "trustzone-m-macros",
  "trustzone-m-nonsecure-rt",
 ]
 
@@ -172,8 +172,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "trustzone-m-macros"
+version = "0.1.0"
+dependencies = [
+ "trustzone-m-tools",
+]
+
+[[package]]
 name = "trustzone-m-nonsecure-rt"
 version = "0.1.0"
+
+[[package]]
+name = "trustzone-m-tools"
+version = "0.1.0"
+dependencies = [
+ "crc",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "ufmt-write"
