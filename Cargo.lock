@@ -3,6 +3,12 @@
 version = 3
 
 [[package]]
+name = "anyhow"
+version = "1.0.64"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9a8f622bcf6ff3df478e9deba3e03e4e04b300f8e6a139e192c05fa3490afc7"
+
+[[package]]
 name = "bare-metal"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -99,6 +105,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "prettyplease"
+version = "0.1.19"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a49e86d2c26a24059894a3afa13fd17d063419b05dfb83f06d9c3566060c3f5a"
+dependencies = [
+ "proc-macro2",
+ "syn",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -143,6 +159,8 @@ dependencies = [
  "cortex-m-rt",
  "crc",
  "rtt-target",
+ "trustzone-m-tools",
+ "trustzone-m-utils",
 ]
 
 [[package]]
@@ -186,10 +204,19 @@ version = "0.1.0"
 name = "trustzone-m-tools"
 version = "0.1.0"
 dependencies = [
- "crc",
+ "anyhow",
+ "prettyplease",
  "proc-macro2",
  "quote",
  "syn",
+ "trustzone-m-utils",
+]
+
+[[package]]
+name = "trustzone-m-utils"
+version = "0.1.0"
+dependencies = [
+ "crc",
 ]
 
 [[package]]

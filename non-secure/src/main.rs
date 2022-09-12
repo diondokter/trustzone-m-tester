@@ -1,9 +1,10 @@
 #![no_std]
 #![no_main]
 
-extern crate trustzone_m_nonsecure_rt;
-
 use trustzone_m_macros::secure_callable;
+
+mod other_private_thing;
+pub mod other_public_thing;
 
 static mut THING: u32 = 0;
 
