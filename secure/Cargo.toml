@@ -9,12 +9,6 @@ edition = "2021"
 cortex-m-rt = "0.7"
 cortex-m = "0.7"
 rtt-target = { version = "0.3", features = ["cortex-m"] }
-crc = "3.0"
-trustzone-m-utils = { path = "../../trustzone-m-tools/utils" }
 
 [build-dependencies]
 trustzone-m-tools = { path = "../../trustzone-m-tools/tools" }
-
-[profile.release]
-debug = true
-lto = true

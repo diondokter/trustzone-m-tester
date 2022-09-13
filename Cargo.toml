@@ -4,3 +4,7 @@ members = [
     "non-secure",
     "secure"
 ]
+
+[profile.release]
+debug = true
+lto = true

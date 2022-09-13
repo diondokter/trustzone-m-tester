@@ -9,7 +9,3 @@ edition = "2021"
 cortex-m = "0.7"
 trustzone-m-nonsecure-rt = { path = "../../trustzone-m-tools/nonsecure-rt" }
 trustzone-m-macros = { path = "../../trustzone-m-tools/macros" }
-
-[profile.release]
-debug = true
-lto = true
