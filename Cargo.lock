@@ -102,6 +102,7 @@ dependencies = [
  "cortex-m",
  "trustzone-m-macros",
  "trustzone-m-nonsecure-rt",
+ "trustzone-m-tools",
 ]
 
 [[package]]
@@ -158,6 +159,7 @@ dependencies = [
  "cortex-m",
  "cortex-m-rt",
  "rtt-target",
+ "trustzone-m-macros",
  "trustzone-m-tools",
 ]
 

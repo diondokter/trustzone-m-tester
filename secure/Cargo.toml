@@ -9,6 +9,7 @@ edition = "2021"
 cortex-m-rt = "0.7"
 cortex-m = "0.7"
 rtt-target = { version = "0.3", features = ["cortex-m"] }
+trustzone-m-macros = { path = "../../trustzone-m-tools/macros" }
 
 [build-dependencies]
 trustzone-m-tools = { path = "../../trustzone-m-tools/tools" }
