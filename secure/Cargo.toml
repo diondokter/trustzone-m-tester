@@ -10,6 +10,7 @@ cortex-m-rt = "0.7"
 cortex-m = "0.7"
 rtt-target = { version = "0.3", features = ["cortex-m"] }
 trustzone-m-macros = { path = "../../trustzone-m-tools/macros" }
+trustzone-m-secure-rt = { path = "../../trustzone-m-tools/secure-rt", features = ["nrf9160"] }
 
 [build-dependencies]
 trustzone-m-tools = { path = "../../trustzone-m-tools/tools" }

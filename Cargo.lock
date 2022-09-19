@@ -106,6 +106,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "nrf9160-pac"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "40f95163c5bfa828e8a75a87accf18fc59da6c9c65902cb6caaa73f4abf23926"
+dependencies = [
+ "cortex-m",
+ "vcell",
+]
+
+[[package]]
 name = "prettyplease"
 version = "0.1.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -160,6 +170,7 @@ dependencies = [
  "cortex-m-rt",
  "rtt-target",
  "trustzone-m-macros",
+ "trustzone-m-secure-rt",
  "trustzone-m-tools",
 ]
 
@@ -199,6 +210,14 @@ dependencies = [
 [[package]]
 name = "trustzone-m-nonsecure-rt"
 version = "0.1.0"
+
+[[package]]
+name = "trustzone-m-secure-rt"
+version = "0.1.0"
+dependencies = [
+ "cortex-m",
+ "nrf9160-pac",
+]
 
 [[package]]
 name = "trustzone-m-tools"

@@ -1,16 +1,26 @@
 MEMORY
 {
     FLASH                    : ORIGIN = 0x00000000, LENGTH = 448K
-    NSC_FLASH                : ORIGIN = 0x00070000, LENGTH = 64K
+    NSC_FLASH                : ORIGIN = 0x00077000, LENGTH = 4K
     NS_FLASH                 : ORIGIN = 0x00080000, LENGTH = 512K
     
     RAM                      : ORIGIN = 0x20000000, LENGTH = 128K
-    NSC_RAM                  : ORIGIN = 0x20020000, LENGTH = 64K
+    NSC_RAM                  : ORIGIN = 0x20021000, LENGTH = 4K
     NS_RAM                   : ORIGIN = 0x20030000, LENGTH = 64K
 }
 
 _NS_VECTORS = ORIGIN(NS_FLASH);
 _NSC_VECTORS = ORIGIN(NSC_FLASH);
+
+_nsc_flash_start = ORIGIN(NSC_FLASH);
+_nsc_flash_end = _nsc_flash_start + LENGTH(NSC_FLASH);
+_nsc_ram_start = ORIGIN(NSC_RAM);
+_nsc_ram_end = _nsc_ram_start + LENGTH(NSC_RAM);
+
+_ns_flash_start = ORIGIN(NS_FLASH);
+_ns_flash_end = _ns_flash_start + LENGTH(NS_FLASH);
+_ns_ram_start = ORIGIN(NS_RAM);
+_ns_ram_end = _ns_ram_start + LENGTH(NS_RAM);
 
 SECTIONS
 {

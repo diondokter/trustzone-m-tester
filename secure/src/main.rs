@@ -15,6 +15,8 @@ fn main() -> ! {
 
     cortex_m::asm::delay(64_000);
 
+    trustzone_m_secure_rt::initialize();
+
     rprintln!("Hello world!");
 
     rprintln!("Calling 'write_thing' with 5");
