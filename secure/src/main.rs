@@ -43,6 +43,7 @@ unsafe fn HardFault(frame: &cortex_m_rt::ExceptionFrame) -> ! {
     rprintln!("Secure fault status register: {:X}", sau.sfsr.read().0);
     rprintln!("Secure fault address register: {:X}", sau.sfar.read().0);
 
+    cortex_m::asm::bkpt();
     cortex_m::asm::delay(u32::MAX);
 
     cortex_m::peripheral::SCB::sys_reset();
