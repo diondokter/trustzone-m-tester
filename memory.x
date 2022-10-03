@@ -10,7 +10,7 @@ MEMORY
 }
 
 _NS_VECTORS = ORIGIN(NS_FLASH);
-_NSC_VECTORS = ORIGIN(NSC_FLASH);
+_NSC_VENEERS = ORIGIN(NSC_FLASH);
 
 _nsc_flash_start = ORIGIN(NSC_FLASH);
 _nsc_flash_end = _nsc_flash_start + LENGTH(NSC_FLASH);
@@ -27,15 +27,9 @@ SECTIONS
   /* ### .ns_vectors */
   .nsc_vectors ORIGIN(NSC_FLASH) :
   {
-    KEEP(*(.nsc_vectors));
-    . = . + 8; /* Add a vector at the end that should end up as 0's to indicate that we've reached the end */
-    . = ALIGN(4); /* Pad .text to the alignment to workaround overlapping load section bug in old lld */
-  } > NSC_FLASH
-
-  /* ### .text */
-  .nsc_text :
-  {
-    KEEP(*(.nsc_text.nsc_exported));
+    KEEP(*(.nsc_veneers.searcher));
+    KEEP(*(.nsc_veneers));
+    . = . + 12; /* Add an empty veneer at the end that should end up as 0's to indicate that we've reached the end */
     . = ALIGN(4); /* Pad .text to the alignment to workaround overlapping load section bug in old lld */
   } > NSC_FLASH
 }

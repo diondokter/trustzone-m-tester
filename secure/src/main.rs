@@ -13,7 +13,7 @@ include!(concat!(env!("OUT_DIR"), "/trustzone_bindings.rs"));
 fn main() -> ! {
     rtt_target::rtt_init_print!();
 
-    cortex_m::asm::delay(64_000);
+    // cortex_m::asm::delay(64_000);
 
     trustzone_m_secure_rt::initialize();
 
@@ -27,12 +27,13 @@ fn main() -> ! {
     rprintln!("Read call: {}", trustzone_bindings::read_thing());
 
     loop {
-        cortex_m::asm::bkpt();
+        // cortex_m::asm::bkpt();
     }
 }
 
 #[trustzone_m_macros::nonsecure_callable]
 pub extern "C" fn return_5() -> u32 {
+    rprintln!("In return_5");
     5
 }
 

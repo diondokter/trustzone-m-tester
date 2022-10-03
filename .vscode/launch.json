@@ -7,7 +7,7 @@
         {
             "name": "Cortex Debug",
             "cwd": "${workspaceFolder}",
-            "executable": "target/thumbv8m.main-none-eabihf/debug/secure",
+            "executable": "target/thumbv8m.main-none-eabihf/release/secure",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",
@@ -24,7 +24,7 @@
                 ]
             },
             "device": "nrf9160",
-            "preLaunchTask": "rust: cargo build",
+            "preLaunchTask": "rust: cargo build release",
         }
     ]
 }
