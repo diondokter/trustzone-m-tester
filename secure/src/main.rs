@@ -11,13 +11,24 @@ include!(concat!(env!("OUT_DIR"), "/trustzone_bindings.rs"));
 
 #[cortex_m_rt::entry]
 fn main() -> ! {
-    rtt_target::rtt_init_print!();
+    // let mut cp = cortex_m::Peripherals::take().unwrap();
 
-    // cortex_m::asm::delay(64_000);
-
+    rtt_target::rtt_init_print!(BlockIfFull, 32);
+    
     trustzone_m_secure_rt::initialize();
 
-    rprintln!("Hello world!");
+    // cp.SCB.invalidate_icache();
+    // cp.SCB.clean_invalidate_dcache(&mut cp.CPUID);
+
+    // cortex_m::asm::dsb();
+    // cortex_m::asm::isb();
+    // cortex_m::asm::delay(6_400_000);
+
+    // for addr in (0..0x100000).step_by(0x1000) {
+    //     rprintln!("{:#010X} - {:X?}", addr, cortex_m::cmse::TestTarget::check(addr as _, cortex_m::cmse::AccessType::Current));
+    // }
+
+    rprintln!("\nHello world!");
 
     rprintln!("Calling 'write_thing' with 5");
     trustzone_bindings::write_thing(5);
@@ -32,6 +43,7 @@ fn main() -> ! {
 }
 
 #[trustzone_m_macros::nonsecure_callable]
+#[inline(never)]
 pub extern "C" fn return_5() -> u32 {
     rprintln!("In return_5");
     5
@@ -41,8 +53,12 @@ pub extern "C" fn return_5() -> u32 {
 unsafe fn HardFault(frame: &cortex_m_rt::ExceptionFrame) -> ! {
     rprintln!("{:?}", frame);
     let sau = &*cortex_m::peripheral::SAU::PTR;
+    rprintln!("Secure ctrl: {:X}", sau.ctrl.read().0);
     rprintln!("Secure fault status register: {:X}", sau.sfsr.read().0);
     rprintln!("Secure fault address register: {:X}", sau.sfar.read().0);
+
+    let scb = &*cortex_m::peripheral::SCB::PTR;
+    rprintln!("Configurable Fault Status Register: {:X}", scb.cfsr.read());
 
     cortex_m::asm::bkpt();
     cortex_m::asm::delay(u32::MAX);
