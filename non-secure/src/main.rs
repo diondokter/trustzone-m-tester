@@ -9,12 +9,12 @@ pub mod other_public_thing;
 
 include!(concat!(env!("OUT_DIR"), "/trustzone_bindings.rs"));
 
-static mut THING: u32 = 0;
+static mut THING: u32 = 99;
 
 #[secure_callable]
 pub extern "C" fn write_thing(val: u32) {
     unsafe {
-        THING = val + trustzone_bindings::return_5();
+        THING = trustzone_bindings::double(val + trustzone_bindings::return_5());
     }
 }
 

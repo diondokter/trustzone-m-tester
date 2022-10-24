@@ -1,6 +1,6 @@
 use trustzone_m_macros::secure_callable;
 
-static mut THING: u32 = 0;
+static mut THING: u32 = 102;
 
 #[secure_callable]
 pub extern "C" fn write_private_thing(val: u32) {

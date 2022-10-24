@@ -11,25 +11,16 @@ include!(concat!(env!("OUT_DIR"), "/trustzone_bindings.rs"));
 
 #[cortex_m_rt::entry]
 fn main() -> ! {
-    // let mut cp = cortex_m::Peripherals::take().unwrap();
-
     rtt_target::rtt_init_print!(BlockIfFull, 32);
     
+    rprintln!("\nInit");
     trustzone_m_secure_rt::initialize();
+    rprintln!("Done");
 
-    // cp.SCB.invalidate_icache();
-    // cp.SCB.clean_invalidate_dcache(&mut cp.CPUID);
-
-    // cortex_m::asm::dsb();
-    // cortex_m::asm::isb();
-    // cortex_m::asm::delay(6_400_000);
-
-    // for addr in (0..0x100000).step_by(0x1000) {
-    //     rprintln!("{:#010X} - {:X?}", addr, cortex_m::cmse::TestTarget::check(addr as _, cortex_m::cmse::AccessType::Current));
-    // }
-
-    rprintln!("\nHello world!");
-
+    rprintln!("Read call private: {}", trustzone_bindings::read_private_thing());
+    rprintln!("Read call other public: {}", trustzone_bindings::read_public_thing());
+    rprintln!("Read call: {}", trustzone_bindings::read_thing());
+    
     rprintln!("Calling 'write_thing' with 5");
     trustzone_bindings::write_thing(5);
     rprintln!("Read call: {}", trustzone_bindings::read_thing());
@@ -38,15 +29,20 @@ fn main() -> ! {
     rprintln!("Read call: {}", trustzone_bindings::read_thing());
 
     loop {
-        // cortex_m::asm::bkpt();
+        cortex_m::asm::bkpt();
     }
 }
 
 #[trustzone_m_macros::nonsecure_callable]
-#[inline(never)]
 pub extern "C" fn return_5() -> u32 {
     rprintln!("In return_5");
     5
+}
+
+#[trustzone_m_macros::nonsecure_callable]
+pub extern "C" fn double(x: u32) -> u32 {
+    rprintln!("In double");
+    x * 2
 }
 
 #[exception]
